@@ -37,7 +37,7 @@ if __name__ == '__main__':
     ASessionMaker = sessionmaker(bind=engine)
     session = ASessionMaker()
     Base.metadata.create_all(engine)
-    user = User(full_name='Crazy Horse', email='crazy.horse@lakota.org', password='TheyTookOurLand')
+    user = User(full_name='Gandalf the Grey', email='gandalf@fellowship.me', password='NotAllThoseWhoWanderAreLost')
     session.add(user)
     session.commit()
     print(user.id)  # None
