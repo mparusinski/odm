@@ -1,7 +1,8 @@
 from flask import Flask
-
-# TODO: Ensure the name is correct
 app = Flask(__name__)
+
+from odm.view.rest_api import rest_api
+app.register_blueprint(rest_api)
 
 
 @app.route("/")
