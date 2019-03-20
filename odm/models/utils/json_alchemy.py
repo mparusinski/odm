@@ -1,6 +1,7 @@
 import json
 from sqlalchemy.ext.declarative import DeclarativeMeta
 
+
 class AlchemyEncoder(json.JSONEncoder):
 
     def default(self, o):

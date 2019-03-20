@@ -1,10 +1,5 @@
-from flask_sqlalchemy import SQLAlchemy
 from passlib.hash import bcrypt
-
-from odm.view.flask_app import app
-
-db = SQLAlchemy(app)
-
+from odm.application import db
 
 class User(db.Model):
     # TODO: Automatically smart derive username from Full Name with limit size and with duplicate handling
@@ -20,28 +15,19 @@ class User(db.Model):
     def __init__(self, full_name: str, email, password):
         self.full_name = full_name
         self.username = full_name.lower().replace(' ', '.')
-        self.password = bcrypt.encrypt(password)
+        self.password = bcrypt.hash(password)
         self.email = email
 
     def validate_password(self, password):
         return bcrypt.verify(password, self.password)
 
     def __repr__(self):
-        # TODO: Improve this function
         return "<User(username ='%s', password='%s', email='%s')>" % (self.username, self.password, self.email)
 
     @classmethod
     def __json__(cls):
         return ['username', 'full_name', 'email', 'password']
 
-
-db.create_all()
-
-gandalf = User(full_name="Gandalf the Grey", email="gandalf@fellowship.me", password="NotAllThoseWhoWanderAreLost")
-frodo = User(full_name="Frodo Baggins", email="frodo@hobbiton.shire", password="KeepItSecretKeepItSafe")
-db.session.add(gandalf)
-db.session.add(frodo)
-db.session.commit()
 
 if __name__ == '__main__':
     pass
