@@ -1,4 +1,3 @@
-import json
 from flask_sqlalchemy import SQLAlchemy
 from passlib.hash import bcrypt
 
@@ -31,17 +30,9 @@ class User(db.Model):
         # TODO: Improve this function
         return "<User(username ='%s', password='%s', email='%s')>" % (self.username, self.password, self.email)
 
-    def to_json(self):
-        return {'full_name':  self.full_name, "username": self.username, "password": self.password, "email": self.email}
-
     @classmethod
-    def from_json(cls, json):
-        user_object = User()
-        user_object.full_name = json['full_name']
-        user_object.username = json['username']
-        user_object.password = json['password']
-        user_object.email = json['email']
-        return user_object
+    def __json__(cls):
+        return ['username', 'full_name', 'email', 'password']
 
 
 db.create_all()
